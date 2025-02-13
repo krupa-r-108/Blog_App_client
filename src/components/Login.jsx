@@ -7,7 +7,7 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const [showPassword,setShowPassword] = useState('text')
+  const [showPassword,setShowPassword] = useState(false)
 
   const navigate = useNavigate();
 
@@ -55,14 +55,20 @@ const Login = () => {
             </div>
             <div className="mb-5">
               <label className="mb-2 block">Password</label>
-              <input
-                className="border border-blue-500 p-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
-                type="password"
-                placeholder="Enter password..."
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                required
-              />
+              <div className="relative">
+                <input
+                  className="border border-blue-500 p-1 w-full focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Enter password..."
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                />
+                <button type="button" onClick={()=>setShowPassword(!showPassword)} className="text-2xl absolute right-3 cursor-pointer">
+                  {showPassword ? '🐵' : '🙈'}
+                </button>
+              </div>
+              
             </div>
             <button
               disabled={loading}

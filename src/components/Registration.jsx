@@ -10,12 +10,13 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [email,setEmail] = useState('');
   const [loading,setLoading] = useState(false);
+  const [showPassword,setShowPassword] = useState(false)
 
   const navigate = useNavigate()
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setLoading(true); // Add this line
+    setLoading(true); 
     const payload = {
       name:username,
       email:email,
@@ -53,7 +54,10 @@ const Registration = () => {
             </div>
             <div className='mb-5'>
               <label className='block'>Password</label>
-              <input className='border w-full p-1 border-blue-500' type="password" placeholder='Enter password...' value={password} onChange={(e)=>{setPassword(e.target.value)}} required/>
+              <div className='relative'>
+                <input className='border w-full p-1 border-blue-500' type={showPassword ? 'text':'password'} placeholder='Enter password...' value={password} onChange={(e)=>{setPassword(e.target.value)}} required />
+                <button type='button' className='cursor-pointer absolute right-2 text-2xl' onClick={()=>setShowPassword(!showPassword)}>{showPassword ? '🐵' : '🙈'}</button>
+              </div>
             </div>
             <button className='cursor-pointer  p-2 rounded-2xl w-full bg-blue-500 text-white hover:bg-blue-600 transition-all duration-150' type='submit' disabled={loading} >
               {loading ? 'Submitting...' :'Register'}
@@ -61,8 +65,6 @@ const Registration = () => {
           </div>
         </form>
       </div>
-      
-
     </div>
     
   )
