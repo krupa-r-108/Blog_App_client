@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
 import {useNavigate} from 'react-router-dom'
+import {GoogleLogin} from '@react-oauth/google'
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -35,6 +36,22 @@ const Login = () => {
         console.log("Login failed", err);
       });
   };
+
+const handleGoogleLogin = async (response) => {
+  try {
+    const {credential} = response; //Get google id
+    const res = await axios.post('http://localhost:8000/users/google-login',{
+      token:credential
+    })
+    // console.log(res)
+    localStorage.setItem('token',JSON.stringify(res.data.token));
+    toast.success('Google Login successful')
+    navigate('/profile')
+  } catch (error) {
+    toast.error('Google Login Failed')
+  }
+}
+
 
   return (
     <div className="flex flex-col justify-center items-center h-screen">
@@ -78,6 +95,7 @@ const Login = () => {
               {loading ? "Logging in..." : "Login"}
             </button>
           </div>
+          <GoogleLogin onSuccess={handleGoogleLogin} onError={() => toast.error('Google Login Failed')}/>
         </form>
       </div>
     </div>
